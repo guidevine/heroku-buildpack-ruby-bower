@@ -765,7 +765,6 @@ https://devcenter.heroku.com/articles/ruby-versions#your-ruby-version-is-x-but-y
         error "Can't install node-0.10.3"
       end
       Dir["bin/*"].each {|path| run("chmod +x #{path}") }
-      pipe("ls -l bin")
     end
   end
 
