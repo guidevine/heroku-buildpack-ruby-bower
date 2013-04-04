@@ -106,6 +106,8 @@ WARNING
         post_bundler
         create_database_yml
         install_binaries
+        install_bower
+        build_bower
         run_assets_precompile_rake_task
       end
       config_detect
@@ -751,6 +753,39 @@ https://devcenter.heroku.com/articles/ruby-versions#your-ruby-version-is-x-but-y
         FileUtils.rm_rf(dir)
       end
       bundler.clean
+    end
+  end
+
+  def install_node
+    log("node") do
+      bin_dir = "bin"
+      FileUtils.mkdir_p bin_dir
+      run("curl http://heroku-buildpack-nodejs.s3.amazonaws.com/nodejs-0.10.3.tgz -s -o - | tar xzf -")
+      unless $?.success?
+        error "Can't install node-0.10.3"
+      end
+      Dir["bin/*"].each {|path| run("chmod +x #{path}") }
+      pipe("ls -l bin")
+    end
+  end
+
+  # install bower as npm module
+  def install_bower
+    log("bower") do
+      pipe("node lib/node_modules/npm/bin/npm-cli.js install -g bower 2>&1")
+      unless $?.success?
+        error "Can't install bower"
+      end
+    end
+  end
+
+  # runs bower to install the dependencies
+  def build_bower
+    log("bower") do
+      pipe("bower install 2>&1")
+      unless $?.success?
+        error "Can't install JavaScript dependencies"
+      end
     end
   end
 
