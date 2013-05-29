@@ -771,7 +771,7 @@ https://devcenter.heroku.com/articles/ruby-versions#your-ruby-version-is-x-but-y
   # install bower as npm module
   def install_bower
     log("bower") do
-      pipe("node lib/node_modules/npm/bin/npm-cli.js install -g http://heroku-buildpack-ruby-bower.s3.amazonaws.com/bower-0.9.2.tgz 2>&1")
+      run("curl http://heroku-buildpack-ruby-bower.s3.amazonaws.com/bower-0.9.2/node_modules.tar.gz -s -o - | tar xzf -")
       unless $?.success?
         error "Can't install bower"
       end
@@ -781,7 +781,7 @@ https://devcenter.heroku.com/articles/ruby-versions#your-ruby-version-is-x-but-y
   # runs bower to install the dependencies
   def build_bower
     log("bower") do
-      pipe("bower install 2>&1")
+      pipe("./node_modules/bower/bin/bower install 2>&1")
       unless $?.success?
         error "Can't install JavaScript dependencies"
       end
