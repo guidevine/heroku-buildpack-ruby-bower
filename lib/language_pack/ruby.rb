@@ -20,7 +20,7 @@ class LanguagePack::Ruby < LanguagePack::Base
   BUNDLER_GEM_PATH     = "bundler-#{BUNDLER_VERSION}"
   RBX_BASE_URL         = "http://binaries.rubini.us/heroku"
   NODE_BP_PATH         = "vendor/node/bin"
-  BOWER_VERSION        = "0.10.0"
+  BOWER_VERSION        = "1.0.0"
   BOWER_BASE_URL       = "http://heroku-buildpack-ruby-bower.s3.amazonaws.com"
 
   # detects if this is a valid Ruby app
