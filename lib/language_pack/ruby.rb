@@ -22,8 +22,6 @@ class LanguagePack::Ruby < LanguagePack::Base
   NODE_BP_PATH         = "vendor/node/bin"
   BOWER_VERSION        = "1.7.7"
   BOWER_BASE_URL       = "http://heroku-buildpack-ruby-bower.s3.amazonaws.com"
-  NODE_JS_VERSION      = "0.10.21"
-  NODE_JS_BASE_URL     = "http://heroku-buildpack-nodejs.s3.amazonaws.com"
 
   # detects if this is a valid Ruby app
   # @return [Boolean] true if it's a Ruby app
@@ -757,20 +755,6 @@ https://devcenter.heroku.com/articles/ruby-versions#your-ruby-version-is-x-but-y
         FileUtils.rm_rf(dir)
       end
       bundler.clean
-    end
-  end
-
-  def install_node
-    log("node") do
-      bin_dir = "bin"
-      FileUtils.mkdir_p bin_dir
-      run("curl #{NODE_JS_BASE_URL}/nodejs-#{NODE_JS_VERSION}.tgz -s -o - | tar xzf -")
-      if $?.success?
-        topic "Using Node.js version: #{NODE_JS_VERSION}"
-      else
-        error "Can't install nodejs-#{NODE_JS_VERSION}"
-      end
-      Dir["bin/*"].each {|path| run("chmod +x #{path}") }
     end
   end
 
